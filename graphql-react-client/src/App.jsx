@@ -1,19 +1,38 @@
-import { useQuery } from "@apollo/client/react";
-import { GET_USERS } from "./graphql/users";
-export default function App(){
-  const {loading, error, data} = useQuery(GET_USERS)
-if(error) return <h3>Error:{error.message}</h3>
-if(loading) return <h3>Loading...</h3>
-return (
-  <div style={{padding:"20px"}}>
-    <h2>Users List</h2>
-    {
-      data.users.map(user=>(
-        <div key={user.id} style={{marginBottom:"10px"}}>
-          <p><b>Name:</b>{user.name}</p>
-          <p><b>Email:</b>{user.email}</p>
-        </div>  ))
-    }
-  </div>
-)
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import LoginScreen from "./pages/Login";
+import Users from "./pages/Users";
+import Tasks from "./pages/Tasks";
+import Logout from "./components/Logout";
+
+function App() {
+  const [user, setUser] = useState(null);
+
+  return (
+    <Router>
+      <div style={{ padding: "20px" }}>
+        {user && <Logout onLogout={setUser} />}
+        <Routes>
+          <Route
+            path="/login"
+            element={!user ? <LoginScreen onLogin={setUser} /> : <Navigate to="/users" />}
+          />
+          <Route
+            path="/users"
+            element={user ? <Users /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/tasks"
+            element={user ? <Tasks /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="*"
+            element={<Navigate to={user ? "/users" : "/login"} />}
+          />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
+
+export default App;
