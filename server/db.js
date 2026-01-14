@@ -6,4 +6,4 @@ const db = mysql.createPool({
     password:"RootAdmin@123",
     database:'task_app'
 });
-module.exports =db
+module.exports =db;

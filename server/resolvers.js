@@ -9,12 +9,18 @@ const resolvers ={
             return rows;
         
         },
-        tasks:async()=>{
+        tasks:async(_,__,context)=>{
+            if(!context.user){
+                throw new Error('Authentication required');
+            }
             const [rows] = await db.query('SELECT * FROM tasks');
             return rows;
         },
-        user:async(parent,args)=>{
-            const [rows] = await db.query('SELECT * FROM users WHERE id=?',[args.id]);
+        user:async(_,__,context)=>{
+            if(!context.user){
+                throw new Error('Authentication required');
+            }
+            const [rows] = await db.query('SELECT * FROM users WHERE id=?',[context.user.id])
             return rows[0];
         },
         task:async(_,__,context)=>{
