@@ -18,4 +18,8 @@ module.exports = `
       status: String!
     ): Task
   }
+  extend type Mutation {
+    updateTask(id: ID!, title: String, description: String, status: String): Task
+    deleteTask(id: ID!): String
+  }
 `;
