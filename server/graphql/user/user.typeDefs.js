@@ -3,6 +3,7 @@ module.exports = `
     id: ID!
     name: String!
     email: String!
+    role: String!
   }
 
   extend type Query {
@@ -15,12 +16,14 @@ module.exports = `
       name: String!
       email: String!
       password: String!
+      role: String!
     ): User
     updateUser(
       id: ID!
       name: String!
       email: String!
       password: String!
+      role: String!
     ): User
     deleteUser(id: ID!): User
   }

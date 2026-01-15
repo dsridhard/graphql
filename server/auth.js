@@ -3,7 +3,7 @@ const SECRET_KEY = 'your-secret-key';
 
 const generateToken = (user) => {
   return jwt.sign(
-    { id: user.id, email: user.email }, // ✅ FIXED
+    { id: user.id, email: user.email, role: user.role}, // ✅ FIXED
     SECRET_KEY,
     { expiresIn: '1h' }
   );
