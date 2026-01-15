@@ -1,15 +1,21 @@
-const jwt  = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const SECRET_KEY = 'your-secret-key';
+
 const generateToken = (user) => {
-  return jwt.sign({ userId: user.id,email:user.email }, SECRET_KEY, { expiresIn: '1h' });
+  return jwt.sign(
+    { id: user.id, email: user.email }, // ✅ FIXED
+    SECRET_KEY,
+    { expiresIn: '1h' }
+  );
 };
+
 const verifyToken = (token) => {
   try {
     return jwt.verify(token, SECRET_KEY);
   } catch (error) {
-    console.error('Token verification failed:', error);
+    console.error('Token verification failed:', error.message);
     return null;
   }
 };
 
-module.exports = { generateToken,verifyToken};
+module.exports = { generateToken, verifyToken };
